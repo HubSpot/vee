@@ -4,7 +4,6 @@
   "description": "Proxy to make local development of static apps possible",
   "main": "start.js",
   "preferGlobal": true,
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git@git.hubteam.com:HubSpot/vee.git"
