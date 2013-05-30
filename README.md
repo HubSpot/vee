@@ -3,7 +3,7 @@ vee
 
 Vee is a simple proxy to allow us to develop static js apps locally.
 
-Your project needs to have a `.vee` yaml configuration file (see example.vee).  Run
+Your project needs to have a `.vee` yaml configuration file (see [example.vee](https://git.hubteam.com/HubSpot/vee/blob/master/example.vee)).  Run
 `vee` in that directory and your proxying will begin.
 
 Installation
