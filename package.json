@@ -3,10 +3,20 @@
   "version": "0.0.1",
   "description": "Proxy to make local development of static apps possible",
   "main": "start.js",
+  "preferGlobal": true,
   "private": true,
   "repository": {
     "type": "git",
     "url": "git@git.hubteam.com:HubSpot/vee.git"
   },
-  "author": "Zack Bloom <zbloom@hubspot.com>"
+  "author": "Zack Bloom <zbloom@hubspot.com>",
+  "dependencies": {
+    "coffee-script": "~1.6.2",
+    "http-proxy": "~0.10.2",
+    "colors": "~0.6.0-1",
+    "commander": "~1.1.1",
+    "libyaml": "~0.2.2",
+    "underscore": "~1.4.4",
+    "minimatch": "~0.2.12"
+  }
 }
