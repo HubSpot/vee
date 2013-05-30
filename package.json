@@ -1,9 +1,10 @@
 {
   "name": "vee",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Proxy to make local development of static apps possible",
   "main": "start.js",
   "preferGlobal": true,
+  "bin": "./start.js",
   "repository": {
     "type": "git",
     "url": "git@git.hubteam.com:HubSpot/vee.git"
