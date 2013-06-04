@@ -37,8 +37,8 @@ catch e
 
 options = _.extend {}, system, _.pick(commander, 'port', 'debug')
 
-options.routes ?= {}
-_.extend options.routes, project.routes
+options.routes = {}
+_.extend options.routes, system.routes, project.routes
 
 proxy.start options
 
