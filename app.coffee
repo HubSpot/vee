@@ -12,10 +12,17 @@ commander
   .option('-d, --debug', "Output route matching debug info", false)
   .parse(process.argv)
 
-options = _.pick commander, 'port', 'debug'
+loadCfg = (file) ->
+  cfg = fs.readFileSync(file).toString('utf8')
+
+  try
+     return YAML.parse(cfg)[0]
+  catch e
+    console.error "#{ file } file is not valid YAML: #{ e.toString() }".red
+    process.exit(1)
 
 try
-  cfg = fs.readFileSync('.vee').toString('utf8')
+  project = loadCfg '.vee'
 catch e
   if e.code is 'ENOENT'
     console.error ".vee configuration file not found in the current directory".red
@@ -24,12 +31,14 @@ catch e
     throw e
 
 try
-  project = YAML.parse(cfg)[0]
+  system = loadCfg "#{ process.env.HOME }/.hubspot/vee.yaml"
 catch e
-  console.error ".vee file is not valid YAML: #{ e.toString() }".red
-  process.exit(1)
+  throw e unless e.code is 'ENOENT'
 
-options.routes = project.routes
+options = _.extend {}, system, _.pick(commander, 'port', 'debug')
+
+options.routes ?= {}
+_.extend options.routes, project.routes
 
 proxy.start options
 
