@@ -12,7 +12,7 @@ commander
   .option('-d, --debug', "Output route matching debug info", false)
   .parse(process.argv)
 
-options = _.pick commander, 'port'
+options = _.pick commander, 'port', 'debug'
 
 try
   cfg = fs.readFileSync('.vee').toString('utf8')
