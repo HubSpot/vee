@@ -21,6 +21,13 @@ loadCfg = (file) ->
     console.error "#{ file } file is not valid YAML: #{ e.toString() }".red
     process.exit(1)
 
+# Options can come from four sources:
+#
+# - The project's .vee file (routes only)
+# - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
+# - Project specific options in ~/.hubspot/vee.yaml (in a section titled the project's .name property)
+# - Command line flags (no routes)
+
 try
   project = loadCfg '.vee'
 catch e
@@ -35,9 +42,15 @@ try
 catch e
   throw e unless e.code is 'ENOENT'
 
-options = _.extend {}, system, _.pick(commander, 'port', 'debug')
+defaults = system['default'] ? {}
 
-options.routes = _.extend {}, system.routes, project.routes
+personal = {}
+if project.name? and system[project.name]?
+  personal = system[project.name]
+
+options = _.extend {}, defaults, personal, _.pick(commander, 'port', 'debug')
+
+options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
 
 proxy.start options
 
