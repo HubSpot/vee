@@ -41,7 +41,7 @@ start = (config) ->
 
     target = parseTarget(target)
 
-    if target.path[target.path.length - 1] != '/'
+    unless target.path[target.path.length - 1] == '/'
       req.url = target.path
 
     proxy.proxyRequest req, res, target
