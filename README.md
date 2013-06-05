@@ -26,6 +26,8 @@ does not, the request will be forward to the exact page provided.  Note that YAM
 it's own escaping, so if you need to use the escape character ('\') in your regular 
 expressions, use it twice ('\\\\').
 
+See above for an example .vee file.
+
 System Configuration
 --------------------
 
@@ -33,8 +35,11 @@ You can define a `~/.hubspot/vee.yaml` file to set defaults for vee's command li
 and routes.  For example, your vee.yaml file could contain:
 
 ```yaml
-debug: true
-port: 7
-routes:
-  "*": "http://google.com/"
+default:
+  debug: true
+  port: 7
+  routes:
+    "*": "http://google.com/"
+contacts-ui:
+  port: 8888
 ```
