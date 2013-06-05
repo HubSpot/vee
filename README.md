@@ -25,3 +25,16 @@ If the host ends with a slash ('/'), the passed in path will be appended to it, 
 does not, the request will be forward to the exact page provided.  Note that YAML has 
 it's own escaping, so if you need to use the escape character ('\') in your regular 
 expressions, use it twice ('\\\\').
+
+System Configuration
+--------------------
+
+You can define a `~/.hubspot/vee.yaml` file to set defaults for vee's command line flags
+and routes.  For example, your vee.yaml file could contain:
+
+```yaml
+debug: true
+port: 7
+routes:
+  "*": "http://google.com/"
+```
