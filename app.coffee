@@ -8,8 +8,8 @@ proxy = require('./proxy')
 
 commander
   .usage("Run it in the root of your project to start proxying requests as defined in the project's .vee file")
-  .option('-p, --port [port number]', "port to run from", 80)
-  .option('-d, --debug', "Output route matching debug info", false)
+  .option('-p, --port [80]', "port to run from")
+  .option('-d, --debug', "Output route matching debug info")
   .parse(process.argv)
 
 loadCfg = (file) ->
@@ -23,10 +23,10 @@ loadCfg = (file) ->
 
 # Options can come from four sources:
 #
-# - The project's .vee file (routes only)
+# - The project's .vee file
 # - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
 # - Project specific options in ~/.hubspot/vee.yaml (in a section titled the project's .name property)
-# - Command line flags (no routes)
+# - Command line flags
 
 try
   project = loadCfg '.vee'
@@ -48,7 +48,7 @@ personal = {}
 if project.name? and system[project.name]?
   personal = system[project.name]
 
-options = _.extend {}, defaults, personal, _.pick(commander, 'port', 'debug')
+options = _.extend {port: 80, debug: false}, project, defaults, personal, _.pick(commander, 'port', 'debug')
 
 options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
 
