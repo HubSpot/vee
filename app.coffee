@@ -42,10 +42,10 @@ try
 catch e
   throw e unless e.code is 'ENOENT'
 
-defaults = system['default'] ? {}
+defaults = system?['default'] ? {}
 
 personal = {}
-if project.name? and system[project.name]?
+if project.name? and system?[project.name]?
   personal = system[project.name]
 
 options = _.extend {port: 80, debug: false}, project, defaults, personal, _.pick(commander, 'port', 'debug')
