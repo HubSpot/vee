@@ -48,7 +48,7 @@ personal = {}
 if project.name? and system?[project.name]?
   personal = system[project.name]
 
-options = _.extend {port: 80, debug: false}, project, defaults, personal, _.pick(commander, 'port', 'debug')
+options = _.extend {port: 80, debug: false}, defaults, project, personal, _.pick(commander, 'port', 'debug')
 
 options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
 
