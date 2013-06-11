@@ -18,7 +18,7 @@ loadCfg = (file) ->
   try
      return YAML.parse(cfg)[0]
   catch e
-    console.error "Contfig file at #{ file } is not valid YAML: #{ e.toString() }".red
+    console.error "Config file at #{ file } is not valid YAML: #{ e.toString() }".red
     process.exit(1)
 
 # Options can come from four sources:
