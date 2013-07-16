@@ -39,7 +39,7 @@ default:
   debug: true
   port: 7
   routes:
-    "*": "http://google.com/"
+    "google/.*": "http://google.com/"
 contacts-ui:
   port: 8888
 ```
