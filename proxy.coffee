@@ -27,7 +27,7 @@ start = (config) ->
 
     return {
       host: parts.hostname
-      port: parts.port
+      port: parts.port or '80'
       path: parts.path
     }
 
