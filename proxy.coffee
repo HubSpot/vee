@@ -1,7 +1,8 @@
 colors = require('colors')
-url = require('url')
 http = require('http')
-Proxy = require('http-proxy')
+request = require('request')
+URL = require('url')
+_ = require('underscore')
 
 start = (config) ->
   match = (url, route) ->
@@ -22,29 +23,28 @@ start = (config) ->
 
     debug "No match!".red
 
-  parseTarget = (dest) ->
-    parts = url.parse(dest)
+  server = http.createServer()
+  server.on 'request', (req, res) ->
 
-    return {
-      host: parts.hostname
-      port: parts.port or '80'
-      path: parts.path
-    }
-
-  server = Proxy.createServer (req, res, proxy) ->
     target = getTarget(req)
 
     unless target
-      res.writeHead(404)
-      res.end("Proxying target not found")
+      res.writeHead 404
+      res.end "Proxying target not found"
       return
 
-    target = parseTarget(target)
+    url = target
+    if target[target.length - 1] is '/'
+      url += URL.parse(req.url).path.replace(/^\//, '')
 
-    unless target.path[target.path.length - 1] == '/'
-      req.url = target.path
+    headers = _.omit req.headers, 'host'
 
-    proxy.proxyRequest req, res, target
+    options =
+      uri: url
+      method: req.method
+      headers: headers
+
+    request(options).pipe res
 
   server.listen(config.port)
 
