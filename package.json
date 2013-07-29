@@ -1,6 +1,6 @@
 {
   "name": "vee",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Proxy to make local development of static apps possible",
   "main": "start.js",
   "preferGlobal": true,
@@ -16,7 +16,6 @@
     "commander": "~1.1.1",
     "libyaml": "~0.2.2",
     "underscore": "~1.4.4",
-    "minimatch": "~0.2.12",
     "request": "~2.25.0"
   }
 }

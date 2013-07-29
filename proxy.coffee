@@ -1,6 +1,7 @@
 colors = require('colors')
 http = require('http')
 request = require('request')
+domain = require('domain')
 URL = require('url')
 _ = require('underscore')
 
@@ -25,8 +26,15 @@ start = (config) ->
 
   server = http.createServer()
   server.on 'request', (req, res) ->
+    reqDomain = domain.create()
 
     target = getTarget(req)
+
+    reqDomain.on 'error', (err) ->
+      console.log 'Error Proxying!'.red
+      console.log 'Request:', req?.url
+      console.log 'Target:', target
+      console.log err?.code or err
 
     unless target
       res.writeHead 404
@@ -44,7 +52,8 @@ start = (config) ->
       method: req.method
       headers: headers
 
-    request(options).pipe res
+    reqDomain.run ->
+      request(options).pipe res
 
   server.listen(config.port)
 
