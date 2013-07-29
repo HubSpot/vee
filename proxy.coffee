@@ -54,7 +54,7 @@ start = (config) ->
       headers: req.headers
 
     reqDomain.run ->
-      request(options).pipe res
+      req.pipe(request(options)).pipe res
 
   server.listen(config.port)
 
