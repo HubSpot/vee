@@ -36,8 +36,8 @@ start = (config) ->
       console.log 'Target:', target
       console.log err?.code or err
 
-      res.writeHead 500
-      res.end "vee error proxying"
+      res.writeHead 502
+      res.end "vee error proxying: #{ err?.code or err }"
 
     unless target
       res.writeHead 404
