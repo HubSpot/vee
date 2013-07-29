@@ -48,12 +48,10 @@ start = (config) ->
     if target[target.length - 1] is '/'
       url += URL.parse(req.url).path.replace(/^\//, '')
 
-    headers = _.omit req.headers, 'host'
-
     options =
       uri: url
       method: req.method
-      headers: headers
+      headers: req.headers
 
     reqDomain.run ->
       request(options).pipe res
