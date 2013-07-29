@@ -36,6 +36,9 @@ start = (config) ->
       console.log 'Target:', target
       console.log err?.code or err
 
+      res.writeHead 500
+      res.end "vee error proxying"
+
     unless target
       res.writeHead 404
       res.end "Proxying target not found"
