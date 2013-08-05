@@ -1,5 +1,5 @@
-name: "contacts-ui"
+name: "my-breakfast-app"
 routes:
-  "/contacts/[0-9]+/$": "http://localhost:3333/ContactsUI/static/html/base.html"
-  ".*/static(\\-[0-9]+\\.[0-9]+)?/.*": "http://localhost:3333"
+  ".*/static(\\-[0-9]+\\.[0-9]+)?/": "http://localhost:3333"
+  "/my-breakfast-app/[0-9]+/$": "http://localhost:3333/my-breakfast-app/static/html/index.html"
   ".*": "http://localhost:8081/"
