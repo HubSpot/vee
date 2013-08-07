@@ -53,5 +53,3 @@ options = _.extend {port: 80, debug: false}, defaults, project, personal, _.pick
 options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
 
 proxy.start options
-
-console.log "Proxy started on port #{ options.port }!".green

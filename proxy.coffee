@@ -56,6 +56,24 @@ start = (config) ->
     reqDomain.run ->
       req.pipe(request(options)).pipe res
 
-  server.listen(config.port)
+  lDomain = domain.create()
+  lDomain.on 'error', (err) ->
+    switch err?.code
+      when 'EACCES'
+        console.log "Permissions issue binding to port #{ config.port }".red
+        console.log "Perhaps you need to run vee as root? (sudo vee)"
+        console.log "Or use the -p flag to start vee on a port above 1024"
+        process.exit(1)
+      when 'EADDRINUSE'
+        console.log "It seems that port #{ config.port } is already in use".red
+        console.log "Please terminate the process bound to that port, or use the -p flag to start vee on a different port"
+        process.exit(1)
+
+    throw err
+
+  lDomain.run ->
+    console.log "Proxy starting on port #{ config.port }!".green
+
+    server.listen(config.port)
 
 module.exports = {start}
