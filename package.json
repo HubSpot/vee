@@ -17,5 +17,8 @@
     "libyaml": "0.2.1",
     "underscore": "~1.4.4",
     "request": "~2.25.0"
+  },
+  "engines": {
+    "node": "~0.8.15"
   }
 }
