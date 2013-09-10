@@ -8,8 +8,9 @@ proxy = require('./proxy')
 
 commander
   .usage("Run it in the root of your project to start proxying requests as defined in the project's .vee file")
-  .option('-p, --port [80]', "port to run from")
-  .option('-d, --debug', "Output route matching debug info")
+  .option('-p, --port [80]', "port to serve http requests from", Number, 80)
+  .option('-s, --https-port [443]', "port to serve https requests from (0 to disable)", Number, 443)
+  .option('-d, --debug', "Output route matching debug info", Boolean, false)
   .parse(process.argv)
 
 watch = (file) ->
@@ -56,7 +57,10 @@ start = ->
   if project.name? and system?[project.name]?
     personal = system[project.name]
 
-  options = _.extend {port: 80, debug: false}, defaults, project, personal, _.pick(commander, 'port', 'debug')
+  options = _.extend defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug')
+
+  options.httpPort = options.port
+  delete options.port
 
   options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
 
