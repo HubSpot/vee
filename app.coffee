@@ -1,5 +1,5 @@
 _ = require('underscore')
-YAML = require('libyaml')
+yaml = require('yaml')
 colors = require('colors')
 fs = require('fs')
 commander = require('commander')
@@ -24,7 +24,7 @@ loadCfg = (file) ->
   watch file
 
   try
-    return YAML.parse(cfg)[0]
+    return yaml.eval(cfg)
   catch e
     console.error "Config file at #{ file } is not valid YAML: #{ e.toString() }".red
     process.exit(1)
