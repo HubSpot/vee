@@ -17,10 +17,6 @@ https://github.com/creationix/nvm
 
 if you run the setup script for nvm it will add the initialization to a .bash_profile or .profile instead of .zshrc. you'll need to copy the initialization into your .zshrc and source it if this is not to your liking.
 
-You should then install version 0.8.15, which is the officially sanctioned HubSpot node version.
-
-```nvm install 0.8.15```
-
 Installation
 ------------
 
