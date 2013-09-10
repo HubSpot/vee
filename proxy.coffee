@@ -5,6 +5,8 @@ domain = require('domain')
 URL = require('url')
 _ = require('underscore')
 
+server = null
+
 start = (config) ->
   match = (url, route) ->
     new RegExp(route).test(url)
@@ -76,4 +78,7 @@ start = (config) ->
 
     server.listen(config.port)
 
-module.exports = {start}
+stop = ->
+  server?.close()
+
+module.exports = {start, stop}

@@ -12,44 +12,61 @@ commander
   .option('-d, --debug', "Output route matching debug info")
   .parse(process.argv)
 
+watch = (file) ->
+  fs.watch file, {persistent: false}, ->
+    console.log "A config file changed, restarting".yellow
+    restart()
+  
 loadCfg = (file) ->
   cfg = fs.readFileSync(file).toString('utf8')
 
+  watch file
+
   try
-     return YAML.parse(cfg)[0]
+    return YAML.parse(cfg)[0]
   catch e
     console.error "Config file at #{ file } is not valid YAML: #{ e.toString() }".red
     process.exit(1)
 
-# Options can come from four sources:
-#
-# - The project's .vee file
-# - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
-# - Project specific options in ~/.hubspot/vee.yaml (in a section titled the project's .name property)
-# - Command line flags
+start = ->
+  # Options can come from four sources:
+  #
+  # - The project's .vee file
+  # - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
+  # - Project specific options in ~/.hubspot/vee.yaml (in a section titled the project's .name property)
+  # - Command line flags
 
-try
-  project = loadCfg '.vee'
-catch e
-  if e.code is 'ENOENT'
-    console.error ".vee configuration file not found in the current directory".red
-    process.exit(1)
-  else
-    throw e
+  try
+    project = loadCfg '.vee'
+  catch e
+    if e.code is 'ENOENT'
+      console.error ".vee configuration file not found in the current directory".red
+      process.exit(1)
+    else
+      throw e
 
-try
-  system = loadCfg "#{ process.env.HOME }/.hubspot/vee.yaml"
-catch e
-  throw e unless e.code is 'ENOENT'
+  try
+    system = loadCfg "#{ process.env.HOME }/.hubspot/vee.yaml"
+  catch e
+    throw e unless e.code is 'ENOENT'
 
-defaults = system?['default'] ? {}
+  defaults = system?['default'] ? {}
 
-personal = {}
-if project.name? and system?[project.name]?
-  personal = system[project.name]
+  personal = {}
+  if project.name? and system?[project.name]?
+    personal = system[project.name]
 
-options = _.extend {port: 80, debug: false}, defaults, project, personal, _.pick(commander, 'port', 'debug')
+  options = _.extend {port: 80, debug: false}, defaults, project, personal, _.pick(commander, 'port', 'debug')
 
-options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
+  options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
 
-proxy.start options
+  proxy.start options
+
+stop = ->
+  proxy.stop()
+
+restart = ->
+  stop()
+  start()
+
+start()
