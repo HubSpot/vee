@@ -65,8 +65,8 @@ start = (config) ->
   if config.httpsPort
     # The key is included in the public git repo, this is in no way secure
     httpsServer = https.createServer
-      key: fs.readFileSync './keys/vee.key'
-      cert: fs.readFileSync './keys/vee.crt'
+      key: fs.readFileSync "#{ __dirname }/keys/vee.key"
+      cert: fs.readFileSync "#{ __dirname }/keys/vee.crt"
 
     httpsServer.on 'request', handle
 
