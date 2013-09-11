@@ -1,5 +1,5 @@
 _ = require('underscore')
-yaml = require('yaml')
+yaml = require('js-yaml')
 colors = require('colors')
 fs = require('fs')
 commander = require('commander')
@@ -17,14 +17,14 @@ watch = (file) ->
   fs.watch file, {persistent: false}, ->
     console.log "A config file changed, restarting".yellow
     restart()
-  
+
 loadCfg = (file) ->
   cfg = fs.readFileSync(file).toString('utf8')
 
   watch file
 
   try
-    return yaml.eval(cfg)
+    return yaml.safeLoad(cfg)
   catch e
     console.error "Config file at #{ file } is not valid YAML: #{ e.toString() }".red
     process.exit(1)
