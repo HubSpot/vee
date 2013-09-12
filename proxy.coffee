@@ -7,7 +7,7 @@ fs = require('fs')
 URL = require('url')
 _ = require('underscore')
 
-server = null
+httpsServer = server = null
 
 start = (config) ->
   match = (url, route) ->
@@ -96,5 +96,6 @@ start = (config) ->
 
 stop = ->
   server?.close()
+  httpsServer?.close()
 
 module.exports = {start, stop}
