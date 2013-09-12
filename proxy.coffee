@@ -88,11 +88,12 @@ start = (config) ->
   lDomain.run ->
     console.log "Proxy starting:"
     console.log "  http on #{ config.httpPort }".green
-    if config.httpsPort
-      console.log "  https on #{ config.httpsPort }".green
 
     server.listen(config.httpPort)
-    httpsServer.listen(config.httpsPort)
+
+    if config.httpsPort
+      console.log "  https on #{ config.httpsPort }".green
+      httpsServer.listen(config.httpsPort)
 
 stop = ->
   server?.close()
