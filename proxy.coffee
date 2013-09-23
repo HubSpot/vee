@@ -62,7 +62,7 @@ start = (config) ->
   server = http.createServer()
   server.on 'request', handle
 
-  if config.httpsPort
+  if config.httpsPort?[0]
     # The key is included in the public git repo, this is in no way secure
     httpsServer = https.createServer
       key: fs.readFileSync "#{ __dirname }/keys/vee.key"
@@ -87,13 +87,15 @@ start = (config) ->
 
   lDomain.run ->
     console.log "Proxy starting:"
-    console.log "  http on #{ config.httpPort }".green
+    console.log "  http on #{ config.httpPort.join(', ') }".green
 
-    server.listen(config.httpPort)
+    for port in config.httpPort
+      server.listen(port)
 
-    if config.httpsPort
-      console.log "  https on #{ config.httpsPort }".green
-      httpsServer.listen(config.httpsPort)
+    if config.httpsPort?[0]
+      console.log "  https on #{ config.httpsPort.join(', ') }".green
+      for port in config.httpsPort
+        httpsServer.listen(port)
 
 stop = ->
   server?.close()

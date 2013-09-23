@@ -6,11 +6,14 @@ commander = require('commander')
 
 proxy = require('./proxy')
 
+NumberList = (str) ->
+  str.split(',').map(Number)
+
 commander
   .usage("Run it in the root of your project to start proxying requests as defined in the project's .vee file")
-  .option('-p, --port [80]', "port to serve http requests from", Number, 80)
-  .option('-s, --https-port [443]', "port to serve https requests from (0 to disable)", Number, 443)
-  .option('-d, --debug', "Output route matching debug info", Boolean, false)
+  .option('-p, --port [80]', "Port to serve http requests from.  Comma seperate to bind onto multiple ports.", NumberList, [80])
+  .option('-s, --https-port [443]', "Port to serve https requests from (0 to disable).", NumberList, [443])
+  .option('-d, --debug', "Output route matching debug info.", Boolean)
   .parse(process.argv)
 
 watch = (file) ->
@@ -57,10 +60,16 @@ start = ->
   if project.name? and system?[project.name]?
     personal = system[project.name]
 
-  options = _.extend defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug')
+  options = _.extend {}, defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug')
 
   options.httpPort = options.port
   delete options.port
+
+  unless _.isArray options.httpPort
+    options.httpPort = [options.httpPort]
+
+  if options.httpsPort? and not _.isArray options.httpsPort
+    options.httpsPort = [options.httpsPort]
 
   options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
 
