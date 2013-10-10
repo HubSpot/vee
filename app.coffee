@@ -75,7 +75,12 @@ start = ->
   if options.httpsPort and not _.isArray options.httpsPort
     options.httpsPort = [options.httpsPort]
 
-  options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
+  #this will ensure that it goes through the project routes FIRST, before personal, then defaults (stepped through by
+  #insertion order). `_.defaults` was used so personal don't overwrite project routes and default routes don't overwrite
+  #project or personal routes.
+  options.routes = _.extend {}, project.routes
+  _.defaults options.routes, personal.routes
+  _.defaults options.routes, defaults.routes
 
   proxy.start options
 
