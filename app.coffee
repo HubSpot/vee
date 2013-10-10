@@ -75,7 +75,9 @@ start = ->
   if options.httpsPort and not _.isArray options.httpsPort
     options.httpsPort = [options.httpsPort]
 
-  options.routes = _.extend {}, defaults.routes, project.routes, personal.routes
+  options.routes = _.extend {}, project.routes
+  _.defaults options.routes, personal.routes
+  _.defaults options.routes, defaults.routes
 
   proxy.start options
 
