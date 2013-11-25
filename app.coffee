@@ -12,12 +12,14 @@ NumberList = (str) ->
 DEFAULTS =
   port: 80
   httpsPort: 443
+  followRedirects: false
 
 commander
   .usage("Run it in the root of your project to start proxying requests as defined in the project's .vee file")
   .option('-p, --port [80]', "Port to serve http requests from.  Comma seperate to bind onto multiple ports.", NumberList)
   .option('-s, --https-port [443]', "Port to serve https requests from (0 to disable).", NumberList)
   .option('-d, --debug', "Output route matching debug info.", Boolean)
+  .option('-r, --follow-redirects', "Push 3XXs to the browser (default, vee follows them)", Boolean)
   .parse(process.argv)
 
 watch = (file) ->
@@ -64,7 +66,7 @@ start = ->
   if project.name? and system?[project.name]?
     personal = system[project.name]
 
-  options = _.extend {}, DEFAULTS, defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug')
+  options = _.extend {}, DEFAULTS, defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug', 'followRedirects')
 
   options.httpPort = options.httpPort ? options.port
   delete options.port
