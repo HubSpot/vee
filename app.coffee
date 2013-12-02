@@ -42,8 +42,8 @@ start = ->
   # Options can come from four sources:
   #
   # - The project's .vee file
-  # - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
   # - Project specific options in ~/.hubspot/vee.yaml (in a section titled the project's .name property)
+  # - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
   # - Command line flags
 
   try
