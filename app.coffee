@@ -24,8 +24,22 @@ commander
 
 watch = (file) ->
   fs.watch file, {persistent: false}, ->
-    console.log "A config file changed, restarting".yellow
-    restart()
+    waitForFileToExist file, ->
+      console.log "A config file changed, restarting".yellow
+      restart()
+
+waitForFileToExist = (file, callback) ->
+  start = +(new Date)
+  waitTime = 100
+  do checkFile = ->
+    fs.exists file, (exists) ->
+      if exists
+        callback()
+      else if +(new Date) - start < waitTime
+        setImmediate checkFile
+      else
+        console.error ".vee configuration file not found within #{waitTime}ms".red
+        process.exit(1)
 
 loadCfg = (file) ->
   cfg = fs.readFileSync(file).toString('utf8')

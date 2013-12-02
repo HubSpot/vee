@@ -5,6 +5,9 @@
   "main": "start.js",
   "preferGlobal": true,
   "bin": "./start.js",
+  "engines": {
+    "node": ">=0.10"
+  },
   "repository": {
     "type": "git",
     "url": "git@git.hubteam.com:HubSpot/vee.git"
