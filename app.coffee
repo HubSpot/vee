@@ -36,7 +36,7 @@ waitForFileToExist = (file, callback) ->
       if exists
         callback()
       else if +(new Date) - start < waitTime
-        process.nextTick checkFile
+        setImmediate checkFile
       else
         console.error ".vee configuration file not found within #{waitTime}ms".red
         process.exit(1)
