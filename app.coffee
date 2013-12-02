@@ -12,12 +12,14 @@ NumberList = (str) ->
 DEFAULTS =
   port: 80
   httpsPort: 443
+  passRedirects: false
 
 commander
   .usage("Run it in the root of your project to start proxying requests as defined in the project's .vee file")
   .option('-p, --port [80]', "Port to serve http requests from.  Comma seperate to bind onto multiple ports.", NumberList)
   .option('-s, --https-port [443]', "Port to serve https requests from (0 to disable).", NumberList)
   .option('-d, --debug', "Output route matching debug info.", Boolean)
+  .option('-r, --pass-redirects', "Pass 3XXs to the browser, rather than following them.", Boolean)
   .parse(process.argv)
 
 watch = (file) ->
@@ -40,8 +42,8 @@ start = ->
   # Options can come from four sources:
   #
   # - The project's .vee file
-  # - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
   # - Project specific options in ~/.hubspot/vee.yaml (in a section titled the project's .name property)
+  # - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
   # - Command line flags
 
   try
@@ -64,7 +66,7 @@ start = ->
   if project.name? and system?[project.name]?
     personal = system[project.name]
 
-  options = _.extend {}, DEFAULTS, defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug')
+  options = _.extend {}, DEFAULTS, defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug', 'passRedirects')
 
   options.httpPort = options.httpPort ? options.port
   delete options.port
