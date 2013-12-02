@@ -19,7 +19,7 @@ commander
   .option('-p, --port [80]', "Port to serve http requests from.  Comma seperate to bind onto multiple ports.", NumberList)
   .option('-s, --https-port [443]', "Port to serve https requests from (0 to disable).", NumberList)
   .option('-d, --debug', "Output route matching debug info.", Boolean)
-  .option('-r, --pass-redirects', "Push 3XXs to the browser (default, vee follows them)", Boolean)
+  .option('-r, --pass-redirects', "Pass 3XXs to the browser, rather than following them.", Boolean)
   .parse(process.argv)
 
 watch = (file) ->
