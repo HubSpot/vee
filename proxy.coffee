@@ -55,7 +55,7 @@ start = (config) ->
       uri: url
       method: req.method
       headers: req.headers
-      followRedirects: not config.followRedirects
+      followRedirect: not config.followRedirects
 
     reqDomain.run ->
       req.pipe(request(options)).pipe res
