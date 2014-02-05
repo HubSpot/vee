@@ -65,4 +65,6 @@ Just in case you can't figure out why IE9 isn't working with your local vee setu
   "^/(proxy-api|proxy-intapi|proxy-login)": "https://app.hubspotqa.com/"
 ```
 
-... because IE9 doesn't (really) support CORs, we need to proxy it. And if you don't have those proxy URLs routed as well HapiJS will always 404 when making an api-verify request.
+... because IE9 doesn't (really) support CORs, we need to proxy it. So if you don't have those proxy URLs routed as well HapiJS will always 404 when making an api-verify request.
+
+Also, if you didn't already realize, you'll need to be hitting a **https://**local.hubspotqa.com/... URL for IE9 to work (since otherwise the HTTP only & secure cookies won't be used). To do that you'll need to have vee proxying port 443 (which it does by default) and if using browserstack, you'll need to make sure that you proxy port 443 as well.
