@@ -56,3 +56,13 @@ default:
 contacts-ui:
   port: 8888
 ```
+
+### Ohh... IE!
+
+Just in case you can't figure out why IE9 isn't working with your local vee setup, you'll likely need something like this in your routes:
+
+```
+  "^/(proxy-api|proxy-intapi|proxy-login)": "https://app.hubspotqa.com/"
+```
+
+... because IE9 doesn't (really) support CORs, we need to proxy it. And if you don't have those proxy URLs routed as well HapiJS will always 404 when making an api-verify request.
