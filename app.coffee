@@ -22,7 +22,9 @@ commander
   .option('-r, --pass-redirects', "Pass 3XXs to the browser, rather than following them.", Boolean)
   .parse(process.argv)
 
+watcher = null
 watch = (file) ->
+  watcher?.close()
   fs.watch file, {persistent: false}, ->
     waitForFileToExist file, ->
       console.log "A config file changed, restarting".yellow
