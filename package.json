@@ -1,7 +1,7 @@
 {
   "name": "vee",
   "version": "0.2.12",
-  "description": "Proxy to make local development of static apps possible",
+  "description": "Proxy to make local development of static apps easy",
   "main": "start.js",
   "preferGlobal": true,
   "bin": "./start.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.hubteam.com:HubSpot/vee.git"
+    "url": "git@github.com:HubSpot/vee.git"
   },
   "author": "Zack Bloom <zbloom@hubspot.com>",
   "dependencies": {
