@@ -1,7 +1,7 @@
 vee
 ===
 
-Vee is a simple proxy to allow us to develop static js apps locally.
+Vee is a simple proxy to to develop static js apps locally.  It allows you to forward traffic to various services or folders on your machine or the internet based on the url requested.
 
 It's different than other options, because the proxy configuration is read from the project (like a package.json), not a central file on your machine.
 
