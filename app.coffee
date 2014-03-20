@@ -12,7 +12,7 @@ NumberList = (str) ->
 DEFAULTS =
   port: 80
   httpsPort: 443
-  passRedirects: false
+  passRedirects: true
 
 commander
   .usage("Run it in the root of your project to start proxying requests as defined in the project's .vee file")
