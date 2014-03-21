@@ -19,6 +19,7 @@
     "commander": "~1.1.1",
     "underscore": "~1.4.4",
     "request": "~2.25.0",
-    "js-yaml": "~2.1.0"
+    "js-yaml": "~2.1.0",
+    "send": "~0.2.0"
   }
 }

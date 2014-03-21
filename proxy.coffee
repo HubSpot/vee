@@ -4,6 +4,7 @@ https = require('https')
 request = require('request')
 domain = require('domain')
 fs = require('fs')
+send = require('send')
 URL = require('url')
 _ = require('underscore')
 
@@ -48,17 +49,25 @@ start = (config) ->
       return
 
     url = target
+
     if target[target.length - 1] is '/'
       url += URL.parse(req.url).path.replace(/^\//, '')
 
-    options =
-      uri: url
-      method: req.method
-      headers: req.headers
-      followRedirect: not config.passRedirects
+    if URL.parse(target).protocol is 'file:'
+      url = url.substr(7)
 
-    reqDomain.run ->
-      req.pipe(request(options)).pipe res
+      reqDomain.run ->
+        send(req, url).pipe res
+
+    else
+      options =
+        uri: url
+        method: req.method
+        headers: req.headers
+        followRedirect: not config.passRedirects
+
+      reqDomain.run ->
+        req.pipe(request(options)).pipe res
 
   server = http.createServer()
   server.on 'request', handle
