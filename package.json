@@ -1,6 +1,6 @@
 {
   "name": "vee",
-  "version": "0.2.12",
+  "version": "0.3.0",
   "description": "Proxy to make local development of static apps easy",
   "main": "start.js",
   "preferGlobal": true,
