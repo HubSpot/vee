@@ -30,6 +30,22 @@ expressions, use it twice ('\\\\').
 
 See above for an example .vee file.
 
+Static files
+------------
+
+vee can also serve static files for you.  Just start the target in your .vee file with
+the `file://` protocol.
+
+HTTPS
+-----
+
+vee will by default attach to port 80 for HTTP traffic and port 443 for HTTPS traffic.
+vee includes some self-signed certs which should be just good enough for you to be
+able to use HTTPS locally (but should never be trusted to secure anything).
+
+If you would like to disable https, pass `-s 0`, or set `httpsPort: 0` in your config
+file.
+
 System Configuration
 --------------------
 
