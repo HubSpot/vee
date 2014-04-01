@@ -12,7 +12,7 @@ httpsServer = server = null
 
 start = (config) ->
   match = (url, route) ->
-    new RegExp(route).test(url)
+    new RegExp(route).exec(url)
 
   debug = (args...) ->
     if config.debug
@@ -23,8 +23,12 @@ start = (config) ->
     for path, dest of config.routes
       debug "Trying #{ path }"
 
-      if match(req.url, path)
+      if matches = match(req.url, path)
+        for component, i in matches when i > 0
+          dest = dest.replace new RegExp("\\$#{ i }", 'g'), component
+
         debug "#{ path } matches, sending to #{ dest }".green
+
         return dest
 
     debug "No match!".red
