@@ -56,6 +56,8 @@ start = (config) ->
       method: req.method
       headers: req.headers
       followRedirect: not config.passRedirects
+      
+    delete options.headers?.host
 
     reqDomain.run ->
       req.pipe(request(options)).pipe res
