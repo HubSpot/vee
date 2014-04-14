@@ -67,7 +67,7 @@ start = (config) ->
       options =
         uri: url
         method: req.method
-        headers: req.headers
+        headers: _.omit(req.headers or {}, 'host')
         followRedirect: not config.passRedirects
 
       reqDomain.run ->
