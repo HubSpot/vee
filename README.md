@@ -10,11 +10,28 @@ Your project needs to have a `.vee` yaml configuration file (see [example.vee](h
 
 Add the `--debug` option to see each route as it matches.
 
-Installation
+Getting Started
 ------------
+
+#### 1. Install vee
 
 ```bash
 npm install -g vee
+```
+
+#### 2. Save a `.vee` file in the root of your project, with whatever routing you might need:
+
+```yaml
+name: "my-app"
+routes:
+  ".*/static/": "http://localhost:3333"
+  ".*": "http://localhost:8081/"
+```
+
+#### 3. Run vee to start proxing in that directory
+
+```bash
+sudo vee
 ```
 
 .vee files
