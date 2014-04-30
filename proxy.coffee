@@ -56,8 +56,11 @@ start = (config) ->
       method: req.method
       headers: req.headers
       followRedirect: not config.passRedirects
-      
-    delete options.headers?.host
+
+    # Ensure that the Host header does not conflict with the request URL, except
+    # when making requests to the local machine.
+    if options.headers?.host and not url.match(/^(local\.)|(localhost:)/)
+      delete options.headers.host
 
     reqDomain.run ->
       req.pipe(request(options)).pipe res
