@@ -1,3 +1,5 @@
+*Note, currently there is an [external version](https://github.com/HubSpot/vee) of vee in addition to this internal repo. We should [figure out how to consolidate them](https://git.hubteam.com/HubSpot/vee/issues/16).*
+
 vee
 ===
 
