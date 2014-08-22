@@ -4,6 +4,7 @@ https = require('https')
 request = require('request')
 domain = require('domain')
 fs = require('fs')
+send = require('send')
 URL = require('url')
 _ = require('underscore')
 
@@ -11,7 +12,7 @@ httpsServer = server = null
 
 start = (config) ->
   match = (url, route) ->
-    new RegExp(route).test(url)
+    new RegExp(route).exec(url)
 
   debug = (args...) ->
     if config.debug
@@ -22,8 +23,12 @@ start = (config) ->
     for path, dest of config.routes
       debug "Trying #{ path }"
 
-      if match(req.url, path)
+      if matches = match(req.url, path)
+        for component, i in matches when i > 0
+          dest = dest.replace new RegExp("\\$#{ i }", 'g'), component
+
         debug "#{ path } matches, sending to #{ dest }".green
+
         return dest
 
     debug "No match!".red
@@ -48,28 +53,32 @@ start = (config) ->
       return
 
     url = target
+
     if target[target.length - 1] is '/'
       url += URL.parse(req.url).path.replace(/^\//, '')
 
-    options =
-      uri: url
-      method: req.method
-      headers: req.headers
-      followRedirect: not config.passRedirects
+    if URL.parse(target).protocol is 'file:'
+      url = url.substr(7)
 
-    # Ensure that the Host header does not conflict with the request URL, except
-    # when making requests to the local machine.
-    if options.headers?.host and not url.match(/^(local\.)|(localhost:)/)
-      delete options.headers.host
+      reqDomain.run ->
+        send(req, url).pipe res
 
-    reqDomain.run ->
-      req.pipe(request(options)).pipe res
+    else
+      options =
+        uri: url
+        method: req.method
+        headers: _.omit(req.headers or {}, 'host')
+        followRedirect: not config.passRedirects
+
+      reqDomain.run ->
+        req.pipe(request(options)).pipe res
 
   server = http.createServer()
   server.on 'request', handle
 
   if config.httpsPort?[0]
-    # The key is included in the public git repo, this is in no way secure
+    # The key is included in the public git repo, this is in no way secure, it's to be used from
+    # your local machine to your local machine
     httpsServer = https.createServer
       key: fs.readFileSync "#{ __dirname }/keys/vee.key"
       cert: fs.readFileSync "#{ __dirname }/keys/vee.crt"
