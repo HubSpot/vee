@@ -12,7 +12,7 @@ NumberList = (str) ->
 DEFAULTS =
   port: 80
   httpsPort: 443
-  passRedirects: false
+  passRedirects: true
 
 commander
   .usage("Run it in the root of your project to start proxying requests as defined in the project's .vee file")
@@ -58,8 +58,8 @@ start = ->
   # Options can come from four sources:
   #
   # - The project's .vee file
-  # - Project specific options in ~/.hubspot/vee.yaml (in a section titled the project's .name property)
-  # - Defaults in the system's ~/.hubspot/vee.yaml (in the `default` section)
+  # - Project specific options in ~/.vee.yaml (in a section titled the project's .name property)
+  # - Defaults in the system's ~/.vee.yaml (in the `default` section)
   # - Command line flags
 
   try
@@ -72,7 +72,7 @@ start = ->
       throw e
 
   try
-    system = loadCfg "#{ process.env.HOME }/.hubspot/vee.yaml"
+    system = loadCfg "#{ process.env.HOME }/.vee.yaml"
   catch e
     throw e unless e.code is 'ENOENT'
 
