@@ -79,7 +79,7 @@ start = (config) ->
       # immediately give a 304 response. This prevents the overhead from piping
       # these common requests to the static daemon.
       if options.headers?['if-none-match'] && localDigestMatch = url.match(/etag=([^&]+)/)
-        if options.headers['if-none-match'] is localDigestMatch[1]
+        if options.headers['if-none-match'] is decodeURIComponent(localDigestMatch[1])
           res.writeHead(304, {
             server: 'vee'
           });
