@@ -80,7 +80,9 @@ start = (config) ->
       # these common requests to the static daemon.
       if options.headers?['if-none-match'] && localDigestMatch = url.match(/etag=([^&]+)/)
         if options.headers['if-none-match'] is localDigestMatch[1]
-          res.writeHead(304);
+          res.writeHead(304, {
+            server: 'vee'
+          });
           res.end()
           return
 
