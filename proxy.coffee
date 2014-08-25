@@ -75,18 +75,19 @@ start = (config) ->
         headers: req.headers or {}
         followRedirect: not config.passRedirects
 
-      # If the request has an Etag that matches its localDigest query param, then
-      # immediately give a 304 response. This prevents the overhead from piping
-      # these common requests to the static daemon.
-      if options.headers?['if-none-match'] && localDigestMatch = url.match(/etag=([^&]+)/)
-        if options.headers['if-none-match'] is decodeURIComponent(localDigestMatch[1])
-          res.writeHead(304, {
-            server: 'vee'
-          });
-          res.end()
-          return
-
       reqDomain.run ->
+        unless config.disableFastEtagCheck
+          # If the request has an Etag that matches the URL's "etag" query param,
+          # then immediately give a 304 response. This prevents the overhead of
+          # proxying requests for cached files.
+          if options.headers?['if-none-match'] && localDigestMatch = url.match(/etag=([^&]+[^&]?)/)
+            if options.headers['if-none-match'] is decodeURIComponent(localDigestMatch[1])
+              res.writeHead(304, {
+                server: 'vee'
+              });
+              res.end()
+              return
+
         req.pipe(request(options)).pipe res
 
   server = http.createServer()
