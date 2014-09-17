@@ -23,7 +23,7 @@ start = (config) ->
     for path, dest of config.routes
       debug "Trying #{ path }"
 
-      if matches = match(req.url, path)
+      if matches = match("#{ req.headers.host }/#{ req.url }", path)
         for component, i in matches when i > 0
           dest = dest.replace new RegExp("\\$#{ i }", 'g'), component
 
@@ -67,7 +67,7 @@ start = (config) ->
       options =
         uri: url
         method: req.method
-        headers: _.omit(req.headers or {}, 'host')
+        headers: req.headers
         followRedirect: not config.passRedirects
 
       reqDomain.run ->

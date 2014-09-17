@@ -1,6 +1,6 @@
 {
   "name": "vee",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "description": "Proxy to make local development of static apps easy",
   "main": "start.js",
   "preferGlobal": true,
@@ -14,7 +14,7 @@
   },
   "author": "Zack Bloom <zbloom@hubspot.com>",
   "dependencies": {
-    "coffee-script": "~1.6.2",
+    "coffee-script": "~1.7.1",
     "colors": "~0.6.0-1",
     "commander": "~1.1.1",
     "underscore": "~1.4.4",
