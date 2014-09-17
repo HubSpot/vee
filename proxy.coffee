@@ -64,13 +64,31 @@ start = (config) ->
         send(req, url).pipe res
 
     else
+      # Ensure that the Host header does not conflict with the request URL, except
+      # when making requests to the local machine.
+      if req.headers?.host and not url.match(/^(local\.)|(localhost:)/)
+        delete req.headers.host
+
       options =
         uri: url
         method: req.method
-        headers: req.headers
+        headers: req.headers or {}
         followRedirect: not config.passRedirects
 
       reqDomain.run ->
+        unless config.disableFastEtagCheck
+          # If the request has an Etag that matches the URL's "etag" query param,
+          # then immediately give a 304 response. This prevents the overhead of
+          # proxying requests for cached files.
+          if options.headers?['if-none-match'] && localDigestMatch = url.match(/etag=([^&]+[^&]?)/)
+            if options.headers['if-none-match'] is decodeURIComponent(localDigestMatch[1])
+              debug "∟ Intercepted the request based on its etag param, sending a 304 response".green
+              res.writeHead(304, {
+                server: 'vee'
+              })
+              res.end()
+              return
+
         req.pipe(request(options)).pipe res
 
   server = http.createServer()
