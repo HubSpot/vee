@@ -85,5 +85,5 @@ Multiple Configurations
 You may want to have multiple configuration files within the same project, in order to allow different proxying rules depending on the envirnoment you are working on (e.g. local vs QA). You can specify a custom config file by using the `--config` flag as follows:
 
 ```bash
-sudo vee --config .vee.qa
+vee --config .vee.qa
 ```
