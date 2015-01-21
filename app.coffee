@@ -20,6 +20,7 @@ commander
   .option('-s, --https-port [443]', "Port to serve https requests from (0 to disable).", NumberList)
   .option('-d, --debug', "Output route matching debug info.", Boolean)
   .option('-r, --pass-redirects', "Pass 3XXs to the browser, rather than following them.", Boolean)
+  .option('-c, --config <config>', 'Specify a configuration file. Defaults to ./.vee', '.vee')
   .parse(process.argv)
 
 watcher = null
@@ -40,7 +41,7 @@ waitForFileToExist = (file, callback) ->
       else if +(new Date) - start < waitTime
         setImmediate checkFile
       else
-        console.error ".vee configuration file not found within #{waitTime}ms".red
+        console.error "configuration file not found within #{waitTime}ms".red
         process.exit(1)
 
 loadCfg = (file) ->
@@ -63,10 +64,10 @@ start = ->
   # - Command line flags
 
   try
-    project = loadCfg '.vee'
+    project = loadCfg commander.config
   catch e
     if e.code is 'ENOENT'
-      console.error ".vee configuration file not found in the current directory".red
+      console.error "configuration file not found in the current directory".red
       process.exit(1)
     else
       throw e
