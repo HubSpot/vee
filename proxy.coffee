@@ -98,8 +98,8 @@ start = (config) ->
     # The key is included in the public git repo, this is in no way secure, it's to be used from
     # your local machine to your local machine
     httpsServer = https.createServer
-      key: fs.readFileSync "#{ __dirname }/keys/vee.key"
-      cert: fs.readFileSync "#{ __dirname }/keys/vee.crt"
+      key: fs.readFileSync(config.sslKey or "#{ __dirname }/keys/vee.key")
+      cert: fs.readFileSync(config.sslCert or "#{ __dirname }/keys/vee.crt")
 
     httpsServer.on 'request', handle
 

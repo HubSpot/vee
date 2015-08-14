@@ -20,6 +20,8 @@ commander
   .option('-s, --https-port [443]', "Port to serve https requests from (0 to disable).", NumberList)
   .option('-d, --debug', "Output route matching debug info.", Boolean)
   .option('-r, --pass-redirects', "Pass 3XXs to the browser, rather than following them.", Boolean)
+  .option('--ssl-key <key>', "SSL private key file to be used with HTTPS requests")
+  .option('--ssl-cert <cert>', "SSL certificate file to be used with HTTPS requests")
   .option('-c, --config <config>', 'Specify a configuration file. Defaults to ./.vee', '.vee')
   .parse(process.argv)
 
@@ -83,7 +85,7 @@ start = ->
   if project.name? and system?[project.name]?
     personal = system[project.name]
 
-  options = _.extend {}, DEFAULTS, defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug', 'passRedirects')
+  options = _.extend {}, DEFAULTS, defaults, project, personal, _.pick(commander, 'port', 'httpsPort', 'debug', 'passRedirects', 'sslKey', 'sslCert')
 
   options.httpPort = options.httpPort ? options.port
   delete options.port
