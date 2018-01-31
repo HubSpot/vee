@@ -1,3 +1,11 @@
+## :rotating_light: Project status :rotating_light:
+
+**This project is no longer maintained by HubSpot.**
+
+If you're a developer and you're looking for an alternative to Vee, check out [node-http-proxy](https://github.com/nodejitsu/node-http-proxy).
+
+If you're with an organization would like to take ownership of Vee, reach out to us! We'd be happy to see this project in the hands of a team that can give it the love it deserves.
+
 vee
 ===
 
